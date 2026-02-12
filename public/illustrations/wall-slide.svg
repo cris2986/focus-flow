@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" fill="none">
+
+  <!-- Sombra suave -->
+  <ellipse cx="200" cy="470" rx="60" ry="8" fill="#CBD5E1" opacity="0.4"/>
+
+  <!-- Piernas -->
+  <rect x="170" y="350" width="22" height="90" rx="11"
+        fill="#A0AEC0" stroke="#4A5568" stroke-width="2.5"/>
+  <rect x="208" y="350" width="22" height="90" rx="11"
+        fill="#A0AEC0" stroke="#4A5568" stroke-width="2.5"/>
+
+  <!-- Zapatos -->
+  <ellipse cx="181" cy="465" rx="16" ry="8" fill="#4A5568"/>
+  <ellipse cx="219" cy="465" rx="16" ry="8" fill="#4A5568"/>
+
+  <!-- Torso -->
+  <rect x="165" y="240" width="70" height="115" rx="35"
+        fill="#A0AEC0" stroke="#4A5568" stroke-width="2.5"/>
+  <rect x="135" y="185" width="18" height="80" rx="9"
+        fill="#A0AEC0" stroke="#4A5568" stroke-width="2.5"
+        transform="rotate(-45 144 225)"/>
+  <rect x="247" y="185" width="18" height="80" rx="9"
+        fill="#A0AEC0" stroke="#4A5568" stroke-width="2.5"
+        transform="rotate(45 256 225)"/>
+  <!-- Cuello -->
+  <rect x="188" y="215" width="24" height="30" rx="12"
+        fill="#A0AEC0" stroke="#4A5568" stroke-width="2.5"/>
+
+  <!-- Cabeza (sin rasgos) -->
+  <ellipse cx="200" cy="185" rx="32" ry="38"
+           fill="#A0AEC0" stroke="#4A5568" stroke-width="2.5"/>
+</svg>

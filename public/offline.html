@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Focus Flow - Sin conexión</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #0a0a0a;
+      color: #fafafa;
+      text-align: center;
+      padding: 2rem;
+    }
+    .container { max-width: 320px; }
+    .icon { font-size: 3rem; margin-bottom: 1.5rem; }
+    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    p { color: #a1a1aa; font-size: 0.875rem; line-height: 1.5; margin-bottom: 1.5rem; }
+    button {
+      background: #fafafa;
+      color: #0a0a0a;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">📡</div>
+    <h1>Sin conexión</h1>
+    <p>No se pudo cargar Focus Flow. Verifica tu conexión a internet e intenta de nuevo.</p>
+    <button onclick="location.reload()">Reintentar</button>
+  </div>
+</body>
+</html>

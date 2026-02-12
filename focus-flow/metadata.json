@@ -1,0 +1,5 @@
+{
+  "name": "Focus Flow",
+  "description": "A productivity application for managing focus sessions, posture, and weekly statistics with a deterministic offline design.",
+  "requestFramePermissions": []
+}
