@@ -433,18 +433,18 @@ const SettingsScreen: React.FC = () => {
             </button>
           </div>
         </section>
-      </main>
 
-      {/* Footer */}
-      <footer className="py-4 px-4 text-center safe-area-bottom flex-shrink-0">
-        <div className="flex flex-col items-center gap-1">
-          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-lg shadow-primary/20">
-            <span className="material-icons-round text-white text-xs">bolt</span>
+        {/* Footer - Inside scroll area */}
+        <footer className="pt-4 pb-8 text-center safe-area-bottom">
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-lg shadow-primary/20">
+              <span className="material-icons-round text-white text-xs">bolt</span>
+            </div>
+            <p className="text-[10px] text-gray-400 font-medium tracking-wide uppercase">Focus Flow v1.0.0</p>
+            <p className="text-[9px] text-gray-400 opacity-70">Funciona offline</p>
           </div>
-          <p className="text-[10px] text-gray-400 font-medium tracking-wide uppercase">Focus Flow v1.0.0</p>
-          <p className="text-[9px] text-gray-400 opacity-70">Funciona offline</p>
-        </div>
-      </footer>
+        </footer>
+      </main>
     </div>
   );
 };

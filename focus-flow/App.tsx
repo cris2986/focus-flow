@@ -76,7 +76,7 @@ const LayoutWithTabs: React.FC<{ children: React.ReactNode }> = ({ children }) =
 const LayoutFullScreen: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div className="flex flex-col h-screen overflow-hidden max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-2xl relative">
-      <div className="flex-1 relative flex flex-col">
+      <div className="flex-1 min-h-0 relative flex flex-col overflow-hidden">
         {children}
       </div>
     </div>
