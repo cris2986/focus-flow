@@ -45,18 +45,6 @@ export interface Exercise {
 
 // ===== ADVANCED SETTINGS =====
 
-// Custom exercise created by user
-export interface CustomExercise {
-  id: string; // UUID to avoid conflicts with native exercises
-  name: string;
-  zone: Zone;
-  posture: Posture;
-  durationSeconds: number; // 15-45 seconds
-  movement: string;
-  objective: string;
-  createdAt: string;
-}
-
 // Work schedule configuration
 export interface WorkScheduleConfig {
   startHour: number;   // 0-23
@@ -81,7 +69,7 @@ export interface AdvancedSettings {
   enabled: boolean; // Master toggle
   workSchedule: WorkScheduleConfig;
   notificationSchedule: NotificationScheduleConfig;
-  customExercises: CustomExercise[];
+  enabledExtraExercises: number[]; // IDs of enabled extra exercises
 }
 
 // Default values for advanced settings
@@ -106,5 +94,5 @@ export const DEFAULT_ADVANCED_SETTINGS: AdvancedSettings = {
   enabled: false,
   workSchedule: DEFAULT_WORK_SCHEDULE,
   notificationSchedule: DEFAULT_NOTIFICATION_SCHEDULE,
-  customExercises: [],
+  enabledExtraExercises: [],
 };

@@ -3,7 +3,6 @@ import {
   AdvancedSettings,
   WorkScheduleConfig,
   NotificationScheduleConfig,
-  CustomExercise,
   DEFAULT_ADVANCED_SETTINGS,
 } from '../types';
 
@@ -26,9 +25,11 @@ interface PreferencesContextType {
   setAdvancedEnabled: (enabled: boolean) => void;
   setWorkSchedule: (config: WorkScheduleConfig) => void;
   setNotificationSchedule: (config: NotificationScheduleConfig) => void;
-  addCustomExercise: (exercise: CustomExercise) => void;
-  updateCustomExercise: (id: string, exercise: Partial<CustomExercise>) => void;
-  deleteCustomExercise: (id: string) => void;
+  // Extra exercises
+  toggleExtraExercise: (id: number) => void;
+  enableExtraExercisesByZone: (ids: number[]) => void;
+  disableExtraExercisesByZone: (ids: number[]) => void;
+  isExtraExerciseEnabled: (id: number) => boolean;
 }
 
 const defaultPreferences: Preferences = {
@@ -62,7 +63,13 @@ export const PreferencesProvider: React.FC<{ children: ReactNode }> = ({ childre
     const stored = localStorage.getItem(ADVANCED_SETTINGS_KEY);
     if (stored) {
       try {
-        return { ...DEFAULT_ADVANCED_SETTINGS, ...JSON.parse(stored) };
+        const parsed = JSON.parse(stored);
+        // Migration: convert old customExercises to new format if needed
+        if (parsed.customExercises && !parsed.enabledExtraExercises) {
+          parsed.enabledExtraExercises = [];
+          delete parsed.customExercises;
+        }
+        return { ...DEFAULT_ADVANCED_SETTINGS, ...parsed };
       } catch {
         return DEFAULT_ADVANCED_SETTINGS;
       }
@@ -110,27 +117,43 @@ export const PreferencesProvider: React.FC<{ children: ReactNode }> = ({ childre
     setAdvancedSettings((prev) => ({ ...prev, notificationSchedule: config }));
   };
 
-  const addCustomExercise = (exercise: CustomExercise) => {
-    setAdvancedSettings((prev) => ({
-      ...prev,
-      customExercises: [...prev.customExercises, exercise],
-    }));
+  // Extra exercises functions
+  const toggleExtraExercise = (id: number) => {
+    setAdvancedSettings((prev) => {
+      const current = prev.enabledExtraExercises || [];
+      const isEnabled = current.includes(id);
+      return {
+        ...prev,
+        enabledExtraExercises: isEnabled
+          ? current.filter((exId) => exId !== id)
+          : [...current, id],
+      };
+    });
   };
 
-  const updateCustomExercise = (id: string, updates: Partial<CustomExercise>) => {
-    setAdvancedSettings((prev) => ({
-      ...prev,
-      customExercises: prev.customExercises.map((ex) =>
-        ex.id === id ? { ...ex, ...updates } : ex
-      ),
-    }));
+  const enableExtraExercisesByZone = (ids: number[]) => {
+    setAdvancedSettings((prev) => {
+      const current = prev.enabledExtraExercises || [];
+      const newIds = ids.filter((id) => !current.includes(id));
+      return {
+        ...prev,
+        enabledExtraExercises: [...current, ...newIds],
+      };
+    });
   };
 
-  const deleteCustomExercise = (id: string) => {
-    setAdvancedSettings((prev) => ({
-      ...prev,
-      customExercises: prev.customExercises.filter((ex) => ex.id !== id),
-    }));
+  const disableExtraExercisesByZone = (ids: number[]) => {
+    setAdvancedSettings((prev) => {
+      const current = prev.enabledExtraExercises || [];
+      return {
+        ...prev,
+        enabledExtraExercises: current.filter((id) => !ids.includes(id)),
+      };
+    });
+  };
+
+  const isExtraExerciseEnabled = (id: number): boolean => {
+    return (advancedSettings.enabledExtraExercises || []).includes(id);
   };
 
   return (
@@ -144,9 +167,10 @@ export const PreferencesProvider: React.FC<{ children: ReactNode }> = ({ childre
         setAdvancedEnabled,
         setWorkSchedule,
         setNotificationSchedule,
-        addCustomExercise,
-        updateCustomExercise,
-        deleteCustomExercise,
+        toggleExtraExercise,
+        enableExtraExercisesByZone,
+        disableExtraExercisesByZone,
+        isExtraExerciseEnabled,
       }}
     >
       {children}

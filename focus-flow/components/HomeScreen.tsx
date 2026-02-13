@@ -14,7 +14,7 @@ import {
 } from '../utils/sessions';
 import { showSessionReminder } from '../utils/notifications';
 import { getLeastWorkedZones, getRecentExerciseIds } from '../utils/stats';
-import { getAllExercises } from '../utils/customExercises';
+import { getAllExercises } from '../utils/exerciseUtils';
 
 const HomeScreen: React.FC = () => {
   const navigate = useNavigate();

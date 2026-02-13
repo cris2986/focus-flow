@@ -6,7 +6,7 @@ import { exportAsCSV, exportAsJSON, triggerImport, ImportResult } from '../utils
 import { requestNotificationPermission, isNotificationSupported, getNotificationPermission } from '../utils/notifications';
 import { resetOnboarding } from './OnboardingScreen';
 import { formatScheduleRange } from '../utils/sessions';
-import { getCustomExerciseCount } from '../utils/customExercises';
+import { getEnabledExtraExerciseCount, getTotalExerciseCount } from '../utils/exerciseUtils';
 
 const SettingsScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ const SettingsScreen: React.FC = () => {
     }
   };
 
-  const customExerciseCount = getCustomExerciseCount();
+  const extraExerciseCount = getEnabledExtraExerciseCount();
 
   return (
     <div className="flex flex-col h-full bg-background-light dark:bg-background-dark">
@@ -124,10 +124,10 @@ const SettingsScreen: React.FC = () => {
             </div>
             <p className="text-[9px] text-gray-400 mt-2 text-center">
               {preferences.postures.sitting && preferences.postures.standing
-                ? `${18 + customExerciseCount} ejercicios disponibles`
+                ? `${getTotalExerciseCount(preferences.postures)} ejercicios disponibles`
                 : preferences.postures.sitting
-                ? `${15 + customExerciseCount} ejercicios sentado`
-                : `${3 + customExerciseCount} ejercicios de pie`}
+                ? `${getTotalExerciseCount(preferences.postures)} ejercicios sentado`
+                : `${getTotalExerciseCount(preferences.postures)} ejercicios de pie`}
             </p>
           </div>
         </section>
@@ -280,22 +280,22 @@ const SettingsScreen: React.FC = () => {
                   <span className="material-icons-round text-gray-300 text-lg">chevron_right</span>
                 </button>
 
-                {/* Custom Exercises */}
+                {/* Extra Exercises */}
                 <button
                   type="button"
                   onClick={() => navigate('/settings/exercises')}
                   className="w-full flex items-center justify-between p-3 group hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors text-left"
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className="bg-green-100 dark:bg-green-900/30 p-1.5 rounded-lg">
-                      <span className="material-icons-round text-green-600 text-lg">fitness_center</span>
+                    <div className={`p-1.5 rounded-lg ${extraExerciseCount > 0 ? 'bg-green-100 dark:bg-green-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
+                      <span className={`material-icons-round text-lg ${extraExerciseCount > 0 ? 'text-green-600' : 'text-gray-400'}`}>library_add</span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Mis ejercicios</span>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Añadir ejercicios</span>
                       <span className="text-[9px] text-gray-400">
-                        {customExerciseCount > 0
-                          ? `${customExerciseCount} ejercicio${customExerciseCount > 1 ? 's' : ''} creado${customExerciseCount > 1 ? 's' : ''}`
-                          : 'Crear ejercicios personalizados'
+                        {extraExerciseCount > 0
+                          ? `${extraExerciseCount} ejercicio${extraExerciseCount > 1 ? 's' : ''} extra activo${extraExerciseCount > 1 ? 's' : ''}`
+                          : 'Amplía tu catálogo de ejercicios'
                         }
                       </span>
                     </div>
@@ -392,7 +392,7 @@ const SettingsScreen: React.FC = () => {
                     {importStatus.stats && (
                       <p className="text-[10px] text-gray-500 mt-1">
                         {importStatus.stats.exercisesImported > 0 && `${importStatus.stats.exercisesImported} sesiones · `}
-                        {importStatus.stats.customExercisesImported > 0 && `${importStatus.stats.customExercisesImported} ejercicios · `}
+                        {importStatus.stats.extraExercisesImported > 0 && `${importStatus.stats.extraExercisesImported} ejercicios extra · `}
                         {importStatus.stats.settingsImported && 'Ajustes importados'}
                       </p>
                     )}

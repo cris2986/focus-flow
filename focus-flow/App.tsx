@@ -8,7 +8,7 @@ import SettingsScreen from './components/SettingsScreen';
 import AboutScreen from './components/AboutScreen';
 import ScheduleConfigScreen from './components/ScheduleConfigScreen';
 import NotificationScheduleScreen from './components/NotificationScheduleScreen';
-import CustomExercisesScreen from './components/CustomExercisesScreen';
+import ExtraExercisesScreen from './components/ExtraExercisesScreen';
 import OnboardingScreen, { hasCompletedOnboarding } from './components/OnboardingScreen';
 import OfflineIndicator from './components/OfflineIndicator';
 
@@ -97,7 +97,7 @@ const App: React.FC = () => {
             <Route path="/settings" element={<OnboardingGuard><LayoutFullScreen><SettingsScreen /></LayoutFullScreen></OnboardingGuard>} />
             <Route path="/settings/schedule" element={<OnboardingGuard><LayoutFullScreen><ScheduleConfigScreen /></LayoutFullScreen></OnboardingGuard>} />
             <Route path="/settings/notifications" element={<OnboardingGuard><LayoutFullScreen><NotificationScheduleScreen /></LayoutFullScreen></OnboardingGuard>} />
-            <Route path="/settings/exercises" element={<OnboardingGuard><LayoutFullScreen><CustomExercisesScreen /></LayoutFullScreen></OnboardingGuard>} />
+            <Route path="/settings/exercises" element={<OnboardingGuard><LayoutFullScreen><ExtraExercisesScreen /></LayoutFullScreen></OnboardingGuard>} />
             <Route path="/about" element={<OnboardingGuard><LayoutFullScreen><AboutScreen /></LayoutFullScreen></OnboardingGuard>} />
           </Routes>
         </HashRouter>

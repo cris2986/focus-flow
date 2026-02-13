@@ -182,19 +182,19 @@ export const formatSecondsToMinutes = (seconds: number): string => {
   return `${minutes}min`;
 };
 
-// Export data as JSON (includes exercise history, custom exercises, and advanced settings)
+// Export data as JSON (includes exercise history, extra exercises, and advanced settings)
 export const exportAsJSON = (): void => {
   const stats = getAllStats();
 
-  // Get custom exercises and advanced settings from localStorage
-  let customExercises: unknown[] = [];
+  // Get enabled extra exercises and advanced settings from localStorage
+  let enabledExtraExercises: number[] = [];
   let advancedSettings: unknown = null;
 
   try {
     const advancedStored = localStorage.getItem('focus-flow-advanced-settings');
     if (advancedStored) {
       const parsed = JSON.parse(advancedStored);
-      customExercises = parsed.customExercises || [];
+      enabledExtraExercises = parsed.enabledExtraExercises || [];
       advancedSettings = {
         enabled: parsed.enabled,
         workSchedule: parsed.workSchedule,
@@ -207,10 +207,10 @@ export const exportAsJSON = (): void => {
 
   // Create comprehensive export object
   const exportData = {
-    version: '1.0.0',
+    version: '1.1.0',
     exportedAt: new Date().toISOString(),
     exerciseHistory: stats,
-    customExercises,
+    enabledExtraExercises,
     advancedSettings,
   };
 
@@ -288,7 +288,7 @@ export interface ImportResult {
   message: string;
   stats?: {
     exercisesImported: number;
-    customExercisesImported: number;
+    extraExercisesImported: number;
     settingsImported: boolean;
   };
 }
@@ -303,7 +303,7 @@ export const importFromJSON = (file: File): Promise<ImportResult> => {
         const data = JSON.parse(content);
 
         let exercisesImported = 0;
-        let customExercisesImported = 0;
+        let extraExercisesImported = 0;
         let settingsImported = false;
 
         // Import exercise history
@@ -328,29 +328,27 @@ export const importFromJSON = (file: File): Promise<ImportResult> => {
           }
         }
 
-        // Import custom exercises
-        if (data.customExercises && Array.isArray(data.customExercises)) {
+        // Import enabled extra exercises (new format v1.1.0+)
+        if (data.enabledExtraExercises && Array.isArray(data.enabledExtraExercises)) {
           const advancedKey = 'focus-flow-advanced-settings';
           const existingAdvanced = localStorage.getItem(advancedKey);
-          let advancedSettings = existingAdvanced
+          const advancedSettings = existingAdvanced
             ? JSON.parse(existingAdvanced)
-            : { enabled: false, customExercises: [] };
+            : { enabled: false, enabledExtraExercises: [] };
 
-          const existingIds = new Set(
-            advancedSettings.customExercises?.map((e: { id: string }) => e.id) || []
+          const existingIds = new Set(advancedSettings.enabledExtraExercises || []);
+
+          const newIds = data.enabledExtraExercises.filter(
+            (id: number) => !existingIds.has(id)
           );
 
-          const newExercises = data.customExercises.filter(
-            (e: { id: string }) => !existingIds.has(e.id)
-          );
-
-          if (newExercises.length > 0) {
-            advancedSettings.customExercises = [
-              ...(advancedSettings.customExercises || []),
-              ...newExercises,
+          if (newIds.length > 0) {
+            advancedSettings.enabledExtraExercises = [
+              ...(advancedSettings.enabledExtraExercises || []),
+              ...newIds,
             ];
             localStorage.setItem(advancedKey, JSON.stringify(advancedSettings));
-            customExercisesImported = newExercises.length;
+            extraExercisesImported = newIds.length;
           }
         }
 
@@ -362,7 +360,7 @@ export const importFromJSON = (file: File): Promise<ImportResult> => {
           if (!existing) {
             localStorage.setItem(advancedKey, JSON.stringify({
               ...data.advancedSettings,
-              customExercises: data.customExercises || [],
+              enabledExtraExercises: data.enabledExtraExercises || [],
             }));
             settingsImported = true;
           }
@@ -373,11 +371,11 @@ export const importFromJSON = (file: File): Promise<ImportResult> => {
           message: 'Datos importados correctamente',
           stats: {
             exercisesImported,
-            customExercisesImported,
+            extraExercisesImported,
             settingsImported,
           },
         });
-      } catch (error) {
+      } catch {
         resolve({
           success: false,
           message: 'Error al leer el archivo. Asegúrate de que sea un archivo JSON válido de Focus Flow.',
