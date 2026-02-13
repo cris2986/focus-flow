@@ -28,33 +28,33 @@ const TabBar: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="bg-white dark:bg-[#25152b] border-t border-gray-100 dark:border-gray-800 px-6 py-3 safe-area-bottom">
-      <ul className="flex justify-between items-center">
+    <nav className="bg-white dark:bg-[#25152b] border-t border-gray-100 dark:border-gray-800 px-4 py-2 safe-area-bottom">
+      <ul className="flex justify-around items-center">
         <li>
-          <button 
+          <button
             onClick={() => navigate('/')}
-            className={`flex flex-col items-center justify-center w-12 h-12 transition-colors ${isActive('/') ? 'text-primary' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'}`}
+            className={`flex flex-col items-center justify-center w-16 h-14 rounded-xl transition-colors ${isActive('/') ? 'text-primary bg-primary/10' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'}`}
           >
-            <span className="material-icons-round text-2xl">timer</span>
-            <span className="text-[10px] font-medium mt-1">Inicio</span>
+            <span className="material-icons-round text-[28px]">timer</span>
+            <span className="text-xs font-medium mt-0.5">Inicio</span>
           </button>
         </li>
         <li>
           <button
             onClick={() => navigate('/summary')}
-            className={`flex flex-col items-center justify-center w-12 h-12 transition-colors ${isActive('/summary') ? 'text-primary' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'}`}
+            className={`flex flex-col items-center justify-center w-16 h-14 rounded-xl transition-colors ${isActive('/summary') ? 'text-primary bg-primary/10' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'}`}
           >
-            <span className="material-icons-round text-2xl">bar_chart</span>
-            <span className="text-[10px] font-medium mt-1">Resumen</span>
+            <span className="material-icons-round text-[28px]">bar_chart</span>
+            <span className="text-xs font-medium mt-0.5">Resumen</span>
           </button>
         </li>
         <li>
-          <button 
+          <button
             onClick={() => navigate('/settings')}
-            className={`flex flex-col items-center justify-center w-12 h-12 transition-colors ${isActive('/settings') ? 'text-primary' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'}`}
+            className={`flex flex-col items-center justify-center w-16 h-14 rounded-xl transition-colors ${isActive('/settings') ? 'text-primary bg-primary/10' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'}`}
           >
-            <span className="material-icons-round text-2xl">settings</span>
-            <span className="text-[10px] font-medium mt-1">Ajustes</span>
+            <span className="material-icons-round text-[28px]">settings</span>
+            <span className="text-xs font-medium mt-0.5">Ajustes</span>
           </button>
         </li>
       </ul>
